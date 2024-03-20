@@ -1,4 +1,4 @@
-name: nwchemifx_apptainer
+name: R_apptainer
 
 on:
   schedule:
@@ -49,4 +49,4 @@ jobs:
       run: |
         pwd
         ls -la
-        apptainer exec ${{ env.tag }}:${{ env.date } R -f install.txt
+        apptainer exec ${{ env.tag }}:${{ env.date }} R -f install.txt
