@@ -1,0 +1,52 @@
+name: nwchemifx_apptainer
+
+on:
+  schedule:
+    - cron: '0 0 * * SUN'
+  repository_dispatch:
+    types: [backend_automation]
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build_image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: tag
+      run: |
+        echo "tag=oras://ghcr.io/${{ github.repository }}/apptainer >> $GITHUB_ENV
+        fi
+    - name: echo-tag
+      run: |
+        echo ' the apptainer tag is ' ${{ env.tag }}
+    - name: Checkout nwchem-singularity source
+      uses: actions/checkout@v4
+    - name: Install apptainer
+      env:
+        APP_VER: 1.2.3
+      run: |
+        sudo apt-get install -y  libfuse2 libseccomp2 zlib1g uidmap squashfs-tools squashfuse fuse2fs fuse-overlayfs fakeroot
+        wget -q  https://github.com/apptainer/apptainer/releases/download/v${APP_VER}/apptainer_${APP_VER}_amd64.deb 
+        sudo dpkg -i apptainer_${APP_VER}_amd64.deb
+        which apptainer
+        apptainer version
+    - name: build an apptainer container
+      run: |
+        cd apptainer
+        apptainer build --fakeroot R.sif Singularity.def
+    - name: builddate
+      id: build-date
+      run: |
+        echo "date=$(TZ=America/Los_Angeles date +%Y%m%d_%H%M%S)" >> $GITHUB_ENV
+    - name: push to ghcr.io
+      run: |
+        pwd
+        echo ${{ secrets.GITHUB_TOKEN }} | apptainer remote login -u ${{ github.actor }} --password-stdin oras://ghcr.io
+        apptainer remote list
+        apptainer push R.sif ${{ env.tag }}:${{ env.date }}
+        apptainer push R.sif ${{ env.tag }}:latest
+    - name: test image with apptainer
+      run: |
+        pwd
+        ls -la
+        apptainer exec ${{ env.tag }}:${{ env.date } R -f install.txt

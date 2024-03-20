@@ -1,0 +1,32 @@
+Bootstrap: docker
+From: ubuntu:jammy
+Stage: spython-base
+
+%files
+install_R_ppa.sh /rocker_scripts/install_R_ppa.sh
+%labels
+org.opencontainers.image.licenses="GPL-2.0-or-later" 
+org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" 
+org.opencontainers.image.vendor="Rocker Project" 
+org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
+%post
+
+
+export R_HOME=/usr/lib/R
+TZ=Etc/UTC
+
+
+/rocker_scripts/install_R_ppa.sh
+
+CRAN=https://cloud.r-project.org
+LANG=en_US.UTF-8
+
+%environment
+export R_HOME=/usr/lib/R/
+export TZ=Etc/UTC
+export CRAN=https://cloud.r-project.org
+export LANG=en_US.UTF-8
+%runscript
+exec /bin/bash R "$@"
+%startscript
+exec /bin/bash R "$@"
