@@ -15,7 +15,6 @@ jobs:
     - name: tag
       run: |
         echo "tag=oras://ghcr.io/${{ github.repository }}/apptainer" >> $GITHUB_ENV
-        fi
     - name: echo-tag
       run: |
         echo ' the apptainer tag is ' ${{ env.tag }}
