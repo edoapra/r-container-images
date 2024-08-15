@@ -46,7 +46,7 @@ jobs:
       with:
         path: |
           ~/cache
-          key: ${{ runner.os }}
+        key: ${{ runner.os }}
     - name: fetch cache
       if: steps.setup-cache.outputs.cache-hit == 'true'
       run: |
