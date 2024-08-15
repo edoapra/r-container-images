@@ -40,6 +40,21 @@ jobs:
     - name: echo-tag
       run: |
         echo ' the apptainer tag is ' ${{ env.tag }}
+    - name: Setup cache
+      id: setup-cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/cache
+          key: ubuntu-jammy
+    - name: fetch cache
+      if: steps.setup-cache.outputs.cache-hit == 'true'
+      run: |
+          cp ~/cache/ubuntu_jammy.sif .
+    - name: create sif from docker
+      if: steps.setup-cache.outputs.cache-hit == 'false'
+      run: |
+          apptainer pull docker://ubuntu:jammy
     - name: Checkout r-apptainer source
       uses: actions/checkout@v4
     - name: Install apptainer
@@ -54,7 +69,7 @@ jobs:
     - name: build an apptainer container
       run: |
         cd apptainer
-        apptainer build --fakeroot R.sif Singularity.def
+        apptainer build --fakeroot R.sif Singularity_local.def
     - name: builddate
       id: build-date
       run: |
@@ -74,3 +89,7 @@ jobs:
         pwd
         ls -la
         R_LIBS=$(pwd) apptainer exec --bind $(pwd) ${{ env.tag }}:${{ env.date }} R -f install.txt
+      - name: store cache
+        run: |
+          mkdir -p ~/cache
+          cp ubuntu_jammy.sif ~/cache
