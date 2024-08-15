@@ -89,7 +89,7 @@ jobs:
         pwd
         ls -la
         R_LIBS=$(pwd) apptainer exec --bind $(pwd) ${{ env.tag }}:${{ env.date }} R -f install.txt
-      - name: store cache
-        run: |
-          mkdir -p ~/cache
-          cp ubuntu_jammy.sif ~/cache
+    - name: store cache
+      run: |
+        mkdir -p ~/cache
+        cp ubuntu_jammy.sif ~/cache
