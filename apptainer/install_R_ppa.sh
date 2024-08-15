@@ -28,7 +28,7 @@ apt-get -y install --no-install-recommends \
       lsb-release \
       make \
       gcc g++ gfortran pkg-config\
-      libpcre2-dev liblzma-dev libbz2-1.0 libz3-dev libzstd-dev zlib1g-dev  zsh \
+      libpcre2-dev liblzma-dev libbz2-1.0 libz3-dev libzstd-dev zlib1g-dev libssl-dev zsh \
       gpg \
       gpg-agent 
 
