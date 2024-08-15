@@ -28,9 +28,9 @@ apt-get -y install --no-install-recommends \
       lsb-release \
       make \
       gcc g++ gfortran pkg-config\
-      libpcre2-dev liblzma-dev libbz2-1.0 libz3-dev libzstd-dev  zsh \
+      libpcre2-dev liblzma-dev libbz2-1.0 libz3-dev libzstd-dev zlib1g-dev  zsh \
       gpg \
-      gpg-agent
+      gpg-agent 
 
 echo "deb http://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-${CRAN_LINUX_VERSION}/" >> /etc/apt/sources.list
 
