@@ -29,7 +29,7 @@ apt-get -y install --no-install-recommends \
       make \
       gcc g++ gfortran pkg-config\
       libpcre2-dev liblzma-dev libz3-dev libzstd-dev zlib1g-dev libssl-dev libbz2-dev zsh \
-      libcurl4-openssl-dev libjpeg-turbo8-dev \
+      libcurl4-openssl-dev libjpeg-turbo8-dev libpng-dev\
       gpg \
       gpg-agent 
 
