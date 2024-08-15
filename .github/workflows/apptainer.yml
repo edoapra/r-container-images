@@ -47,16 +47,17 @@ jobs:
         path: |
           ~/cache
         key: ${{ runner.os }}
+    - name: Checkout r-apptainer source
+      uses: actions/checkout@v4
     - name: fetch cache
       if: steps.setup-cache.outputs.cache-hit == 'true'
       run: |
-          cp ~/cache/ubuntu_jammy.sif .
+          cp ~/cache/ubuntu_jammy.sif apptainer/.
     - name: create sif from docker
       if: steps.setup-cache.outputs.cache-hit == 'false'
       run: |
+          cd apptainer
           apptainer pull docker://ubuntu:jammy
-    - name: Checkout r-apptainer source
-      uses: actions/checkout@v4
     - name: Install apptainer
       env:
         APP_VER: 1.2.3
@@ -68,6 +69,7 @@ jobs:
         apptainer version
     - name: build an apptainer container
       run: |
+        pwd
         cd apptainer
         apptainer build --fakeroot R.sif Singularity_local.def
     - name: builddate
