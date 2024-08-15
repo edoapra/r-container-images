@@ -73,4 +73,4 @@ jobs:
         cd apptainer
         pwd
         ls -la
-        apptainer exec ${{ env.tag }}:${{ env.date }} R -f install.txt
+        R_LIBS=$(pwd) apptainer exec --bind $(pwd) ${{ env.tag }}:${{ env.date }} R -f install.txt
