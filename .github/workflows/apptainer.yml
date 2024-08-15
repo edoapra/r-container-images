@@ -40,7 +40,7 @@ jobs:
     - name: echo-tag
       run: |
         echo ' the apptainer tag is ' ${{ env.tag }}
-    - name: Checkout nwchem-singularity source
+    - name: Checkout r-apptainer source
       uses: actions/checkout@v4
     - name: Install apptainer
       env:
