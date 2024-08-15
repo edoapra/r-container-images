@@ -49,15 +49,6 @@ jobs:
         key: ${{ runner.os }}
     - name: Checkout r-apptainer source
       uses: actions/checkout@v4
-    - name: fetch cache
-      if: steps.setup-cache.outputs.cache-hit == 'true'
-      run: |
-          cp ~/cache/ubuntu_jammy.sif apptainer/.
-    - name: create sif from docker
-      if: steps.setup-cache.outputs.cache-hit != 'true'
-      run: |
-          cd apptainer
-          apptainer pull docker://ubuntu:jammy
     - name: Install apptainer
       env:
         APP_VER: 1.2.3
@@ -67,6 +58,15 @@ jobs:
         sudo dpkg -i apptainer_${APP_VER}_amd64.deb
         which apptainer
         apptainer version
+    - name: fetch cache
+      if: steps.setup-cache.outputs.cache-hit == 'true'
+      run: |
+          cp ~/cache/ubuntu_jammy.sif apptainer/.
+    - name: create sif from docker
+      if: steps.setup-cache.outputs.cache-hit != 'true'
+      run: |
+          cd apptainer
+          apptainer pull docker://ubuntu:jammy
     - name: build an apptainer container
       run: |
         pwd
