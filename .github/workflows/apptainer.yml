@@ -12,6 +12,10 @@ jobs:
   build_image:
     runs-on: ubuntu-latest
     steps:
+    - name: Dump runner context
+      env:
+        RUNNER_CONTEXT: ${{ toJson(runner) }}
+      run: echo "$RUNNER_CONTEXT"
     - name: pkg cleanup
       run: |
         df -h
