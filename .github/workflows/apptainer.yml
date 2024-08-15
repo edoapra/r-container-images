@@ -94,4 +94,5 @@ jobs:
     - name: store cache
       run: |
         mkdir -p ~/cache
-        cp ubuntu_jammy.sif ~/cache
+        pwd
+        cp ~/apptainer/ubuntu_jammy.sif ~/cache
